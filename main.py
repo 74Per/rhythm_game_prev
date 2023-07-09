@@ -55,7 +55,7 @@ def sum_note(n):
         tst = Time + 2
         t4.append([ty,tst])
 
-speed = 1
+speed = 0.8
         
 notesumt = 0
 
@@ -63,7 +63,6 @@ a=0
 aa=0
 
 spin = 0
-
 combo = 0
 combo_effect = 0
 combo_effect2 = 0
@@ -119,7 +118,7 @@ while main:
             rate_data[2] = t3[0][0]
         if len(t4) > 0:
             rate_data[3] = t4[0][0]
-        if Time > 0.4 * notesumt:
+        if Time > 0.3 * notesumt:
             notesumt +=1   
             while a == aa:
                 a = random.randint(1,4)
@@ -182,7 +181,8 @@ while main:
 
         screen.fill((0,0,0))
 
-
+        rgb = (random.randint(0, 255), random.randint(0, 255), random.randint(0, 255))
+        
         keys[0] += (keyset[0]-keys[0])/ (2 * (maxframe / fps))
         keys[1] += (keyset[1]-keys[1])/ (2 * (maxframe / fps))
         keys[2] += (keyset[2]-keys[2])/ (2 * (maxframe / fps))
@@ -211,11 +211,11 @@ while main:
             i+=1
             pygame.draw.rect(screen, (200-((200/7)*i),200 - ((200/7)*i),200-((200/7)*i)), (w/2 + w/16 + w/32 - (w/32)*keys[3], (h/12)*9 - (h/30)*keys[3]*i, w/16*keys[3], (h/35)/i))
 
-        pygame.draw.rect(screen, (176,255,176), (w / 2 - w / 8, -int(w/100), w / 4, h+ int(w /50)), int(w / 100))
+        pygame.draw.rect(screen, (153,255,204), (w / 2 - w / 8, -int(w/100), w / 4, h+ int(w /50)), int(w / 100))
 
         for tile_data in t1:
             tile_data[0] = (h/12) * 9 + (Time - tile_data[1]) * 350 * speed * (h/900)
-            pygame.draw.rect(screen, (255,255,176), (w/2 - w/8, tile_data[0] - h/100, w/16, h/50))
+            pygame.draw.rect(screen, (153,255,204), (w/2 - w/8, tile_data[0] - h/100, w/16, h/50))
             if tile_data[0] > h - (h/9):
                 last_combo = combo
                 miss_anim = 1
@@ -227,7 +227,7 @@ while main:
                 t1.remove(tile_data)
         for tile_data in t2:
             tile_data[0] = (h/12) * 9 + (Time - tile_data[1]) * 350 * speed * (h/900)
-            pygame.draw.rect(screen,(255,255,176),(w/2 - w/16, tile_data[0]- h/100,w/16,h/50))
+            pygame.draw.rect(screen,(153,255,204),(w/2 - w/16, tile_data[0]- h/100,w/16,h/50))
             if tile_data[0] > h - (h/9):
                 last_combo = combo
                 miss_anim = 1
@@ -239,7 +239,7 @@ while main:
                 t2.remove(tile_data)
         for tile_data in t3:
             tile_data[0] = (h/12) * 9 + (Time - tile_data[1]) * 350 * speed * (h/900)
-            pygame.draw.rect(screen,(255,255,176),(w/2, tile_data[0]- h/100,w/16,h/50))
+            pygame.draw.rect(screen,(153,255,204),(w/2, tile_data[0]- h/100,w/16,h/50))
             if tile_data[0] > h - (h/9):
                 last_combo = combo
                 miss_anim = 1
@@ -251,7 +251,7 @@ while main:
                 t3.remove(tile_data)
         for tile_data in t4:
             tile_data[0] = (h/12) * 9 + (Time - tile_data[1]) * 350 * speed * (h/900)
-            pygame.draw.rect(screen,(255,255,176),(w/2 + w/16, tile_data[0]- h/100,w/16,h/50))
+            pygame.draw.rect(screen,(153,255,204),(w/2 + w/16, tile_data[0]- h/100,w/16,h/50))
             if tile_data[0] > h - (h/9):
                 last_combo = combo
                 miss_anim = 1
@@ -263,7 +263,7 @@ while main:
                 t4.remove(tile_data)
 
         pygame.draw.rect(screen, (0,0,0), (w/2-w/8, (h/12)*9,w/4,h/2))
-        pygame.draw.rect(screen, (176,255,176), (w/2-w/8, (h/12)*9,w/4,h/2), int(h/100))
+        pygame.draw.rect(screen, (255,255,102), (w/2-w/8, (h/12)*9,w/4,h/2), int(h/100))
         
         pygame.draw.rect(screen, (255 - 100 * keys[0],255 - 100 * keys[0], 255 - 100 * keys[0]), (w / 2 - w / 9, (h / 24) * 19 + (h / 48) * keys[0], w / 27, h / 8), int(h / 150))
         pygame.draw.rect(screen, (255 - 100 * keys[3],255 - 100 * keys[3], 255 - 100 * keys[3]), (w / 2 + w / 13.5, (h / 24) * 19 + (h / 48) * keys[3], w / 27, h / 8), int(h / 150))
