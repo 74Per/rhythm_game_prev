@@ -3,10 +3,11 @@ import pygame, math, time, os, random
 pygame.init()
 
 w =1600
-h= w*(9/16)
+h= 900
 
 screen = pygame.display.set_mode((w,h))
-
+background = pygame.image.load(r"C:\Users\User\Documents\dev\이찬우\rhythm_game\background.jpg")
+bg2 = pygame.image.load(r"C:\Users\User\Documents\dev\이찬우\rhythm_game\bg.png")
 clock = pygame.time.Clock()
 
 main = True
@@ -118,7 +119,10 @@ while main:
             rate_data[2] = t3[0][0]
         if len(t4) > 0:
             rate_data[3] = t4[0][0]
-        if Time > 0.3 * notesumt:
+
+######################################################################################            
+        if Time > 0.4 * notesumt:
+######################################################################################
             notesumt +=1   
             while a == aa:
                 a = random.randint(1,4)
@@ -179,15 +183,17 @@ while main:
                 if event.key == pygame.K_f:
                     keyset[3] = 0
 
-        screen.fill((0,0,0))
+        screen.fill((176,255,123))
+        screen.blit(background, (0, 0))
+        screen.blit(bg2, (w / 2 - w / 8, -int(w/100), w / 4, h+ int(w /50)))
 
         rgb = (random.randint(0, 255), random.randint(0, 255), random.randint(0, 255))
-        
+        #######################################################################################################
         keys[0] += (keyset[0]-keys[0])/ (2 * (maxframe / fps))
         keys[1] += (keyset[1]-keys[1])/ (2 * (maxframe / fps))
         keys[2] += (keyset[2]-keys[2])/ (2 * (maxframe / fps))
         keys[3] += (keyset[3]-keys[3])/ (2 * (maxframe / fps)) 
-
+        #######################################################################################################
         if Time > combo_time:
             combo_effect += (0-combo_effect) / (7*(maxframe/fps))
         if Time < combo_time:
@@ -196,8 +202,8 @@ while main:
         combo_effect2 += (2-combo_effect2) / (7*(maxframe/fps))
 
         miss_anim +=(4- miss_anim) / (14*(maxframe / fps))
-        pygame.draw.rect(screen, (0,0,0), (w / 2 - w / 8, -int(w/100), w / 4, h+ int(w /50)))
-        
+        c = pygame.Color(10, 10, 10, a=255)
+
         for i in range(7):
             i+=1
             pygame.draw.rect(screen, (200-((200/7)*i),200 - ((200/7)*i),200-((200/7)*i)), (w/2 - w/8 + w/32 - (w/32)*keys[0], (h/12)*9 - (h/30)*keys[0]*i, w/16*keys[0], (h/35)/i))
@@ -211,11 +217,11 @@ while main:
             i+=1
             pygame.draw.rect(screen, (200-((200/7)*i),200 - ((200/7)*i),200-((200/7)*i)), (w/2 + w/16 + w/32 - (w/32)*keys[3], (h/12)*9 - (h/30)*keys[3]*i, w/16*keys[3], (h/35)/i))
 
-        pygame.draw.rect(screen, (153,255,204), (w / 2 - w / 8, -int(w/100), w / 4, h+ int(w /50)), int(w / 100))
+        pygame.draw.rect(screen, (0,255,255), (w / 2 - w / 8, -int(w/100), w / 4, h+ int(w /50)), int(w / 100))
 
         for tile_data in t1:
             tile_data[0] = (h/12) * 9 + (Time - tile_data[1]) * 350 * speed * (h/900)
-            pygame.draw.rect(screen, (153,255,204), (w/2 - w/8, tile_data[0] - h/100, w/16, h/50))
+            pygame.draw.rect(screen, (0,255,255), (w/2 - w/8, tile_data[0] - h/100, w/16, h/50))
             if tile_data[0] > h - (h/9):
                 last_combo = combo
                 miss_anim = 1
@@ -227,7 +233,7 @@ while main:
                 t1.remove(tile_data)
         for tile_data in t2:
             tile_data[0] = (h/12) * 9 + (Time - tile_data[1]) * 350 * speed * (h/900)
-            pygame.draw.rect(screen,(153,255,204),(w/2 - w/16, tile_data[0]- h/100,w/16,h/50))
+            pygame.draw.rect(screen,(0,255,255),(w/2 - w/16, tile_data[0]- h/100,w/16,h/50))
             if tile_data[0] > h - (h/9):
                 last_combo = combo
                 miss_anim = 1
@@ -239,7 +245,7 @@ while main:
                 t2.remove(tile_data)
         for tile_data in t3:
             tile_data[0] = (h/12) * 9 + (Time - tile_data[1]) * 350 * speed * (h/900)
-            pygame.draw.rect(screen,(153,255,204),(w/2, tile_data[0]- h/100,w/16,h/50))
+            pygame.draw.rect(screen,(0,255,255),(w/2, tile_data[0]- h/100,w/16,h/50))
             if tile_data[0] > h - (h/9):
                 last_combo = combo
                 miss_anim = 1
@@ -251,7 +257,7 @@ while main:
                 t3.remove(tile_data)
         for tile_data in t4:
             tile_data[0] = (h/12) * 9 + (Time - tile_data[1]) * 350 * speed * (h/900)
-            pygame.draw.rect(screen,(153,255,204),(w/2 + w/16, tile_data[0]- h/100,w/16,h/50))
+            pygame.draw.rect(screen,(0,255,255),(w/2 + w/16, tile_data[0]- h/100,w/16,h/50))
             if tile_data[0] > h - (h/9):
                 last_combo = combo
                 miss_anim = 1
@@ -261,16 +267,16 @@ while main:
                 combo_effect2 = 1.3
                 rate = "MISS"
                 t4.remove(tile_data)
-
+        
         pygame.draw.rect(screen, (0,0,0), (w/2-w/8, (h/12)*9,w/4,h/2))
-        pygame.draw.rect(screen, (255,255,102), (w/2-w/8, (h/12)*9,w/4,h/2), int(h/100))
+        pygame.draw.rect(screen, (255,255,128), (w/2-w/8, (h/12)*9,w/4,h/2), int(h/100))
         
         pygame.draw.rect(screen, (255 - 100 * keys[0],255 - 100 * keys[0], 255 - 100 * keys[0]), (w / 2 - w / 9, (h / 24) * 19 + (h / 48) * keys[0], w / 27, h / 8), int(h / 150))
         pygame.draw.rect(screen, (255 - 100 * keys[3],255 - 100 * keys[3], 255 - 100 * keys[3]), (w / 2 + w / 13.5, (h / 24) * 19 + (h / 48) * keys[3], w / 27, h / 8), int(h / 150))
 
         pygame.draw.circle(screen, (150, 150, 150), (w / 2, (h / 24) * 21), (w / 20), int(h / 200))
         pygame.draw.line(screen, (150, 150, 150), (w / 2 - math.sin(spin) * 25 * (w / 1600), (h / 24) * 21 - math.cos(spin) * 25 * (w / 1600)), (w / 2 + math.sin(spin) * 25 * (w / 1600), (h / 24) * 21 + math.cos(spin) * 25 * (w / 1600)), int(w / 400))
-        spin += (speed / 20 * (maxframe / fps))
+        spin += (speed / 10 * (maxframe / fps))
 
 
         pygame.draw.rect(screen, (255 - 100 * keys[1], 255 - 100 * keys[1], 255 - 100 * keys[1]), (w / 2 - w / 18, (h / 48) * 39 + (h / 48) * keys[1], w / 27, h / 8))
@@ -278,14 +284,14 @@ while main:
         pygame.draw.rect(screen, (50,50, 50), (w / 2 - w / 18, (h / 48) * 39 + (h / 48) * keys[1], w / 27, h / 8), int(h / 150))
 
         pygame.draw.rect(screen, (255 - 100 * keys[2], 255 - 100 * keys[2], 255 - 100 * keys[2]), (w / 2 + w / 58, (h / 48) * 39 + (h / 48) * keys[2], w / 27, h / 8))
-        pygame.draw.rect(screen, (0,0, 0), (w / 2 + w / 58, (h / 48) * 43 + (h / 48) * (keys[2] * 1.2), w / 27, h / 64), int(h / 150))
+        pygame.draw.rect(screen, (0,0,0), (w / 2 + w / 58, (h / 48) * 43 + (h / 48) * (keys[2] * 1.2), w / 27, h / 64), int(h / 150))
         pygame.draw.rect(screen, (50,50, 50), (w / 2 + w / 58, (h / 48) * 39 + (h / 48) * keys[2], w / 27, h / 8), int(h / 150))
         miss_text.set_alpha(255 - (255/4)* miss_anim)
 
         screen.blit(combo_text, (w/2 - combo_text.get_width() /2, (h/12)*4 - combo_text.get_height() / 2))
         screen.blit(rate_text, (w/2 - rate_text.get_width() /2, (h/12)*8 - rate_text.get_height() / 2))
         screen.blit(miss_text, (w/2 - miss_text.get_width() /2, (h/12)*4 - miss_text.get_height() / 2))
-
+        
         pygame.display.flip()
         clock.tick(maxframe)
 
