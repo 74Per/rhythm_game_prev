@@ -1,14 +1,26 @@
 import pygame, math, time, os, random
+from math import sqrt
+import numpy as np
+import pyaudio
+from pydub import AudioSegment
 
 pygame.init()
+pygame.mixer.init()
 
 w =1600
 h= 900
+VIS_AREA_WIDTH = 300
+VIS_AREA_HEIGHT = 500
+BARS = 30
+BAR_WIDTH = VIS_AREA_WIDTH // BARS
 
 screen = pygame.display.set_mode((w,h))
 background = pygame.image.load(r"C:\Users\User\Documents\dev\이찬우\rhythm_game\background.jpg")
 bg2 = pygame.image.load(r"C:\Users\User\Documents\dev\이찬우\rhythm_game\bg.png")
 clock = pygame.time.Clock()
+music_path = r"C:\Users\User\Documents\dev\이찬우\rhythm_game\Newjeans.mp3"  
+pygame.mixer.music.load(music_path)  
+pygame.mixer.music.play(0)
 
 main = True
 ingame = True
@@ -18,7 +30,7 @@ keyset = [0, 0, 0, 0]
 
 maxframe = 60
 fps = 0
-
+note_counter = 0
 gst = time.time()
 Time = time.time() - gst
 
@@ -97,20 +109,22 @@ def rating(n):
         combo_time = Time + 1
         combo_effect2 = 1.3
         rate = "GOOD"
-    if abs((h/12) * 9 - rate_data[n - 1] < 50 * speed * (h/900) and (h/12) * 9 - rate_data[n - 1] >= 15*speed*(h/900)):
+    if abs((h/12) * 9 - rate_data[n - 1] < 50 * speed * (h/900) and (h/12) * 9 - rate_data[n - 1] >= 45*speed*(h/900)):
         combo += 1
         combo_effect = 0.2
         combo_time = Time + 1
         combo_effect2 = 1.3
         rate = "GREAT"
-    if abs((h/12) * 9 - rate_data[n - 1] < 15 * speed * (h/900) and (h/12) * 9 - rate_data[n - 1] >= 0*speed*(h/900)):
-        combo += 1
+    if abs((h/12) * 9 - rate_data[n - 1] < 45 * speed * (h/900) and (h/12) * 9 - rate_data[n - 1] >= 0*speed*(h/900)):
+        combo += 2
         combo_effect = 0.2
         combo_time = Time + 1
         combo_effect2 = 1.3
         rate = "PERFECT"
+
 while main:
     while ingame:
+
         if len(t1) > 0:
             rate_data[0] = t1[0][0]
         if len(t2) > 0:
@@ -187,10 +201,9 @@ while main:
         screen.blit(background, (0, 0))
         screen.blit(bg2, (w / 2 - w / 8, -int(w/100), w / 4, h+ int(w /50)))
 
-        rgb = (random.randint(0, 255), random.randint(0, 255), random.randint(0, 255))
         #######################################################################################################
         keys[0] += (keyset[0]-keys[0])/ (2 * (maxframe / fps))
-        keys[1] += (keyset[1]-keys[1])/ (2 * (maxframe / fps))
+        keys[1] += (keyset[1]-keys[1])/ (2 * (maxframe / fps))      
         keys[2] += (keyset[2]-keys[2])/ (2 * (maxframe / fps))
         keys[3] += (keyset[3]-keys[3])/ (2 * (maxframe / fps)) 
         #######################################################################################################
