@@ -149,10 +149,9 @@ while main:
     
         ingame_font_combo = pygame.font.Font(os.path.join(Fpath, "_ingame_font.ttf"), int((w/38)* combo_effect2))
         combo_text = ingame_font_combo.render(str(combo),False, (255,255,255))
-
         rate_text = ingame_font_rate.render(str(rate),False , (255,255,255))
         rate_text = pygame.transform.scale(rate_text, (int(w/110*len(rate) * combo_effect2), int((w/58 * combo_effect * combo_effect2))))
-
+        
         ingame_font_miss = pygame.font.Font(os.path.join(Fpath, "_ingame_font.ttf"), int(w/38 * miss_anim))
         miss_text = ingame_font_miss.render(str(last_combo), False, (255,0,0))
 
