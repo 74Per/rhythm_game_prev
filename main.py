@@ -3,6 +3,7 @@ from math import sqrt
 import numpy as np
 import pyaudio
 from pydub import AudioSegment
+from note import noteList as nl
 
 pygame.init()
 pygame.mixer.init()
@@ -45,7 +46,7 @@ t4=[]
 Cpath = os.path.dirname(__file__)
 Fpath = os.path.join("font")
 
-rate = "PERFECT"
+rate = ""
 
 ingame_font_rate = pygame.font.Font(os.path.join(Fpath,"_ingame_font.ttf"), int(w/23))
 rate_text = ingame_font_rate.render(str(rate), False, (255,255,255))
@@ -103,13 +104,13 @@ def rating(n):
         combo_time = Time + 1
         combo_effect2 = 1.3
         rate = "BAD"
-    if abs((h/12) * 9 - rate_data[n - 1] < 100 * speed * (h/900) and (h/12) * 9 - rate_data[n - 1] >= 50*speed*(h/900)):
+    if abs((h/12) * 9 - rate_data[n - 1] < 100 * speed * (h/900) and (h/12) * 9 - rate_data[n - 1] >= 70*speed*(h/900)):
         combo += 1
         combo_effect = 0.2
         combo_time = Time + 1
         combo_effect2 = 1.3
         rate = "GOOD"
-    if abs((h/12) * 9 - rate_data[n - 1] < 50 * speed * (h/900) and (h/12) * 9 - rate_data[n - 1] >= 45*speed*(h/900)):
+    if abs((h/12) * 9 - rate_data[n - 1] < 70 * speed * (h/900) and (h/12) * 9 - rate_data[n - 1] >= 45*speed*(h/900)):
         combo += 1
         combo_effect = 0.2
         combo_time = Time + 1
@@ -120,8 +121,9 @@ def rating(n):
         combo_effect = 0.2
         combo_time = Time + 1
         combo_effect2 = 1.3
-        rate = "PERFECT"
-
+        rate = "ACCURATE!"
+        
+current_note_idx = 0
 while main:
     while ingame:
 
@@ -133,15 +135,14 @@ while main:
             rate_data[2] = t3[0][0]
         if len(t4) > 0:
             rate_data[3] = t4[0][0]
-
-######################################################################################            
-        if Time > 0.4 * notesumt:
-######################################################################################
-            notesumt +=1   
-            while a == aa:
-                a = random.randint(1,4)
-            sum_note(a)
-            aa=a     
+####################################################################################################
+        Time = pygame.time.get_ticks() / 1000
+        
+        while current_note_idx < len(nl) and Time >= nl[current_note_idx]['timeTick']:
+            current_note = nl[current_note_idx]
+            sum_note(current_note['pos'])  
+            current_note_idx += 1  
+#####################################################################################################
         Time = time.time() - gst
 
         fps = clock.get_fps()
@@ -196,7 +197,7 @@ while main:
                     keyset[2] = 0
                 if event.key == pygame.K_f:
                     keyset[3] = 0
-
+        
         screen.fill((176,255,123))
         screen.blit(background, (0, 0))
         screen.blit(bg2, (w / 2 - w / 8, -int(w/100), w / 4, h+ int(w /50)))
