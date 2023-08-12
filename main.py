@@ -4,9 +4,10 @@ import numpy as np
 import pyaudio
 from pydub import AudioSegment
 from note import noteList as nl
-
+pygame.display.set_caption("rhythm game")
 pygame.init()
 pygame.mixer.init()
+start_screen = True
 
 w =1600
 h= 900
@@ -14,14 +15,19 @@ VIS_AREA_WIDTH = 300
 VIS_AREA_HEIGHT = 500
 BARS = 30
 BAR_WIDTH = VIS_AREA_WIDTH // BARS
+Cpath = os.path.dirname(__file__)
+Fpath = os.path.join("font")
 
 screen = pygame.display.set_mode((w,h))
-background = pygame.image.load(r"C:\Users\User\Documents\dev\이찬우\rhythm_game\background.jpg")
-bg2 = pygame.image.load(r"C:\Users\User\Documents\dev\이찬우\rhythm_game\bg.png")
+background = pygame.image.load(r"C:\Users\User\Documents\dev\이찬우\rhythm_game\pic\background.jpg")
+bg2 = pygame.image.load(r"C:\Users\User\Documents\dev\이찬우\rhythm_game\pic\bg.png")
+start_bg = pygame.image.load(r"C:\Users\User\Documents\dev\이찬우\rhythm_game\pic\start.jpg")
 clock = pygame.time.Clock()
 music_path = r"C:\Users\User\Documents\dev\이찬우\rhythm_game\Newjeans.mp3"  
 pygame.mixer.music.load(music_path)  
 pygame.mixer.music.play(0)
+start_font = pygame.font.Font(os.path.join(Fpath,"_ingame_font.ttf"), int(w/23))
+start_text = start_font.render("START", False, (255,255,255))
 
 main = True
 ingame = True
@@ -29,26 +35,53 @@ ingame = True
 keys = [0, 0, 0, 0]
 keyset = [0, 0, 0, 0]
 
-maxframe = 60
+maxframe = 120
 fps = 0
 note_counter = 0
 gst = time.time()
 Time = time.time() - gst
 
+def check_start_button(mouse_position):
+    button_rect = start_text.get_rect(center=(w/2, (h/12)*8))
+    if button_rect.collidepoint(mouse_position):
+        return True
+    return False
+while start_screen:
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            pygame.quit()
+        if event.type == pygame.MOUSEBUTTONUP:
+            mouse_pos = pygame.mouse.get_pos()
+            if check_start_button(mouse_pos):
+                start_screen = False
+    screen.blit(start_bg, (0, 0))
+    screen.blit(start_text, (w/2 - start_text.get_width() /2, (h/12)*8 - start_text.get_height() / 2))
+    pygame.display.flip()
+    clock.tick(maxframe)
 ty = 0
 tst = Time
+if not start_screen:
+    pygame.mixer.music.stop()
+    pygame.mixer.music.unload()
+    pygame.mixer.quit()
+    main = True
+    ingame = True
+    pygame.mixer.init()
+    pygame.mixer.music.load(music_path)
+    pygame.mixer.music.play(0)
+    current_note_idx = 0
+    t1 = []
+    t2 = []
+    t3 = []
+    t4 = []
 
 t1=[]
 t2=[]
 t3=[]
 t4=[]
 
-Cpath = os.path.dirname(__file__)
-Fpath = os.path.join("font")
-
 rate = ""
-
-ingame_font_rate = pygame.font.Font(os.path.join(Fpath,"_ingame_font.ttf"), int(w/23))
+ingame_font_rate = pygame.font.Font(os.path.join(Fpath,"I AM A PLAYER.ttf"), int(w/23))
 rate_text = ingame_font_rate.render(str(rate), False, (255,255,255))
 
 def sum_note(n):
@@ -135,24 +168,33 @@ while main:
             rate_data[2] = t3[0][0]
         if len(t4) > 0:
             rate_data[3] = t4[0][0]
+
+        if Time > 0.4 * notesumt:
+            notesumt +=1   
+            while a == aa:
+                a = random.randint(1,4)
+            sum_note(a)
+            aa=a     
+        Time = time.time() - gst
+
 ####################################################################################################
-        Time = pygame.time.get_ticks() / 1000
+        # Time = pygame.time.get_ticks() / 1000
         
-        while current_note_idx < len(nl) and Time >= nl[current_note_idx]['timeTick']:
-            current_note = nl[current_note_idx]
-            sum_note(current_note['pos'])  
-            current_note_idx += 1  
+        # while current_note_idx < len(nl) and Time >= nl[current_note_idx]['timeTick']:
+        #     current_note = nl[current_note_idx]
+        #     sum_note(current_note['pos'])  
+        #     current_note_idx += 1  
 #####################################################################################################
         Time = time.time() - gst
 
         fps = clock.get_fps()
     
-        ingame_font_combo = pygame.font.Font(os.path.join(Fpath, "_ingame_font.ttf"), int((w/38)* combo_effect2))
+        ingame_font_combo = pygame.font.Font(os.path.join(Fpath, "I AM A PLAYER.ttf"), int((w/38)* combo_effect2))
         combo_text = ingame_font_combo.render(str(combo),False, (255,255,255))
         rate_text = ingame_font_rate.render(str(rate),False , (255,255,255))
         rate_text = pygame.transform.scale(rate_text, (int(w/110*len(rate) * combo_effect2), int((w/58 * combo_effect * combo_effect2))))
         
-        ingame_font_miss = pygame.font.Font(os.path.join(Fpath, "_ingame_font.ttf"), int(w/38 * miss_anim))
+        ingame_font_miss = pygame.font.Font(os.path.join(Fpath, "I AM A PLAYER.ttf"), int(w/38 * miss_anim))
         miss_text = ingame_font_miss.render(str(last_combo), False, (255,0,0))
 
         if fps == 0:
@@ -196,7 +238,7 @@ while main:
                     keyset[2] = 0
                 if event.key == pygame.K_f:
                     keyset[3] = 0
-        
+       
         screen.fill((176,255,123))
         screen.blit(background, (0, 0))
         screen.blit(bg2, (w / 2 - w / 8, -int(w/100), w / 4, h+ int(w /50)))
@@ -304,7 +346,6 @@ while main:
         screen.blit(combo_text, (w/2 - combo_text.get_width() /2, (h/12)*4 - combo_text.get_height() / 2))
         screen.blit(rate_text, (w/2 - rate_text.get_width() /2, (h/12)*8 - rate_text.get_height() / 2))
         screen.blit(miss_text, (w/2 - miss_text.get_width() /2, (h/12)*4 - miss_text.get_height() / 2))
-        
         pygame.display.flip()
         clock.tick(maxframe)
 
