@@ -4,10 +4,10 @@ import numpy as np
 import pyaudio
 from pydub import AudioSegment
 from note import noteList as nl
-pygame.display.set_caption("rhythm game")
+pygame.display.set_caption("zotgotgehane shebal")
 pygame.init()
 pygame.mixer.init()
-start_screen = True
+start_screen = False
 
 w =1600
 h= 900
@@ -26,7 +26,7 @@ clock = pygame.time.Clock()
 music_path = r"C:\Users\User\Documents\dev\이찬우\rhythm_game\Newjeans.mp3"  
 pygame.mixer.music.load(music_path)  
 pygame.mixer.music.play(0)
-start_font = pygame.font.Font(os.path.join(Fpath,"_ingame_font.ttf"), int(w/23))
+start_font = pygame.font.Font(os.path.join(Fpath,"I AM A PLAYER.ttf"), int(w/23))
 start_text = start_font.render("START", False, (255,255,255))
 
 main = True
@@ -168,22 +168,27 @@ while main:
             rate_data[2] = t3[0][0]
         if len(t4) > 0:
             rate_data[3] = t4[0][0]
+        Time = pygame.time.get_ticks() / 1000
 
-        if Time > 0.4 * notesumt:
-            notesumt +=1   
-            while a == aa:
-                a = random.randint(1,4)
-            sum_note(a)
-            aa=a     
-        Time = time.time() - gst
+        if current_note_idx < len(nl) and Time >= nl[current_note_idx]['timeTick']:
+            current_note = nl[current_note_idx]
+            sum_note(current_note['pos'])
+            current_note_idx += 1
 
+        for next_idx in range(current_note_idx, len(nl)):
+            next_note = nl[next_idx]
+            if Time >= next_note['timeTick']:
+                sum_note(next_note['pos'])
+                current_note_idx += 1
+            else:
+                break
 ####################################################################################################
         # Time = pygame.time.get_ticks() / 1000
         
         # while current_note_idx < len(nl) and Time >= nl[current_note_idx]['timeTick']:
         #     current_note = nl[current_note_idx]
         #     sum_note(current_note['pos'])  
-        #     current_note_idx += 1  
+        #     current_note_idx += 1 
 #####################################################################################################
         Time = time.time() - gst
 
