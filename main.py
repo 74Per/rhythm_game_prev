@@ -4,7 +4,6 @@ import numpy as np
 import pyaudio
 from pydub import AudioSegment
 from note import noteList as nl
-pygame.display.set_caption("asdf")
 pygame.init()
 pygame.mixer.init()
 start_screen = True
@@ -157,11 +156,11 @@ def rating(n):
         rate = "ACCURATE!"
         
 current_note_idx = 0
-a = 0
+Time = pygame.time.get_ticks() / 1000
+Time = Time - Time
 if not start_screen:
     while main:
         while ingame:
-            print(a)
 
             if len(t1) > 0:
                 rate_data[0] = t1[0][0]
@@ -171,7 +170,7 @@ if not start_screen:
                 rate_data[2] = t3[0][0]
             if len(t4) > 0:
                 rate_data[3] = t4[0][0]
-            Time = pygame.time.get_ticks() / 1000
+            
             # print(Time)
             # if current_note_idx < len(nl) and Time >= nl[current_note_idx]['timeTick']:
             #     current_note = nl[current_note_idx]
@@ -214,38 +213,38 @@ if not start_screen:
                     pygame.quit()
                 
                 if event.type == pygame.KEYDOWN:
-                    if event.key == pygame.K_a:
+                    if event.key == pygame.K_d:
                         keyset[0] = 1
                         if len(t1) > 0:
                             if t1[0][0] > h /3:
                                 rating(1)
                                 del t1[0]
-                    if event.key == pygame.K_s:
+                    if event.key == pygame.K_f:
                         keyset[1] = 1
                         if len(t2) > 0:
                             if t2[0][0] > h /3:
                                 rating(2)
                                 del t2[0]
-                    if event.key == pygame.K_d:
+                    if event.key == pygame.K_j:
                         keyset[2] = 1
                         if len(t3) > 0:
                             if t3[0][0] > h /3:
                                 rating(3)
                                 del t3[0]
-                    if event.key == pygame.K_f:
+                    if event.key == pygame.K_k:
                         keyset[3] = 1
                         if len(t4) > 0:
                             if t4[0][0] > h /3:
                                 rating(4)
                                 del t4[0]
                 if event.type == pygame.KEYUP:
-                    if event.key == pygame.K_a:
-                        keyset[0] = 0
-                    if event.key == pygame.K_s:
-                        keyset[1] = 0
                     if event.key == pygame.K_d:
-                        keyset[2] = 0
+                        keyset[0] = 0
                     if event.key == pygame.K_f:
+                        keyset[1] = 0
+                    if event.key == pygame.K_j:
+                        keyset[2] = 0
+                    if event.key == pygame.K_k:
                         keyset[3] = 0
         
             screen.blit(background, (0, 0))
