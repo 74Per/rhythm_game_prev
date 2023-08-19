@@ -10,10 +10,6 @@ start_screen = True
 
 w =1600
 h= 900
-VIS_AREA_WIDTH = 300
-VIS_AREA_HEIGHT = 500
-BARS = 30
-BAR_WIDTH = VIS_AREA_WIDTH // BARS
 Cpath = os.path.dirname(__file__)
 Fpath = os.path.join("font")
 
@@ -156,12 +152,11 @@ def rating(n):
         rate = "ACCURATE!"
         
 current_note_idx = 0
-Time = pygame.time.get_ticks() / 1000
-Time = Time - Time
 if not start_screen:
     while main:
+        Time = pygame.time.get_ticks() / 1000
+        Time = Time - Time
         while ingame:
-
             if len(t1) > 0:
                 rate_data[0] = t1[0][0]
             if len(t2) > 0:
@@ -171,7 +166,7 @@ if not start_screen:
             if len(t4) > 0:
                 rate_data[3] = t4[0][0]
             
-            # print(Time)
+            print(Time)
             # if current_note_idx < len(nl) and Time >= nl[current_note_idx]['timeTick']:
             #     current_note = nl[current_note_idx]
             #     sum_note(current_note['pos'])
