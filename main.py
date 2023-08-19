@@ -213,38 +213,38 @@ if not start_screen:
                     pygame.quit()
                 
                 if event.type == pygame.KEYDOWN:
-                    if event.key == pygame.K_d:
+                    if event.key == pygame.K_a:
                         keyset[0] = 1
                         if len(t1) > 0:
                             if t1[0][0] > h /3:
                                 rating(1)
-                                del t1[0]
-                    if event.key == pygame.K_f:
+                                del t1[0]dfdf
+                    if event.key == pygame.K_d:
                         keyset[1] = 1
                         if len(t2) > 0:
                             if t2[0][0] > h /3:
                                 rating(2)
                                 del t2[0]
-                    if event.key == pygame.K_j:
+                    if event.key == pygame.K_s:
                         keyset[2] = 1
                         if len(t3) > 0:
                             if t3[0][0] > h /3:
                                 rating(3)
                                 del t3[0]
-                    if event.key == pygame.K_k:
+                    if event.key == pygame.K_f:
                         keyset[3] = 1
                         if len(t4) > 0:
                             if t4[0][0] > h /3:
                                 rating(4)
                                 del t4[0]
                 if event.type == pygame.KEYUP:
-                    if event.key == pygame.K_d:
+                    if event.key == pygame.K_a:
                         keyset[0] = 0
-                    if event.key == pygame.K_f:
+                    if event.key == pygame.K_s:
                         keyset[1] = 0
-                    if event.key == pygame.K_j:
+                    if event.key == pygame.K_d:
                         keyset[2] = 0
-                    if event.key == pygame.K_k:
+                    if event.key == pygame.K_f:
                         keyset[3] = 0
         
             screen.blit(background, (0, 0))
