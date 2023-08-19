@@ -157,9 +157,11 @@ def rating(n):
         rate = "ACCURATE!"
         
 current_note_idx = 0
+a = 0
 if not start_screen:
     while main:
         while ingame:
+            print(a)
 
             if len(t1) > 0:
                 rate_data[0] = t1[0][0]
@@ -170,7 +172,7 @@ if not start_screen:
             if len(t4) > 0:
                 rate_data[3] = t4[0][0]
             Time = pygame.time.get_ticks() / 1000
-            print(Time)
+            # print(Time)
             # if current_note_idx < len(nl) and Time >= nl[current_note_idx]['timeTick']:
             #     current_note = nl[current_note_idx]
             #     sum_note(current_note['pos'])
@@ -354,4 +356,4 @@ if not start_screen:
             screen.blit(miss_text, (w/2 - miss_text.get_width() /2, (h/12)*4 - miss_text.get_height() / 2))
             pygame.display.flip()
             clock.tick(maxframe)
-
+            a += 1
