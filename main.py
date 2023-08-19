@@ -218,7 +218,7 @@ if not start_screen:
                         if len(t1) > 0:
                             if t1[0][0] > h /3:
                                 rating(1)
-                                del t1[0]dfdf
+                                del t1[0]
                     if event.key == pygame.K_d:
                         keyset[1] = 1
                         if len(t2) > 0:
