@@ -14,16 +14,26 @@ Cpath = os.path.dirname(__file__)
 Fpath = os.path.join("font")
 
 screen = pygame.display.set_mode((w,h))
-background = pygame.image.load(r"C:\Users\User\Documents\dev\이찬우\rhythm_game\pic\background.jpg")
-bg2 = pygame.image.load(r"C:\Users\User\Documents\dev\이찬우\rhythm_game\pic\bg.png")
-start_bg = pygame.image.load(r"C:\Users\User\Documents\dev\이찬우\rhythm_game\pic\start.jpg")
+background = pygame.image.load(r"C:\Users\clueo\Desktop\이찬우-프로젝트 파일\rhythm_game\pic\background.jpg")
+bg2 = pygame.image.load(r"C:\Users\clueo\Desktop\이찬우-프로젝트 파일\rhythm_game\pic\bg.png")
+start_bg = pygame.image.load(r"C:\Users\clueo\Desktop\이찬우-프로젝트 파일\rhythm_game\pic\start.jpg")
 clock = pygame.time.Clock()
-music_path = r"C:\Users\User\Documents\dev\이찬우\rhythm_game\Newjeans.mp3"  
-pygame.mixer.music.load(music_path)  
-pygame.mixer.music.play(0)
+music_path = r"C:\Users\clueo\Desktop\이찬우-프로젝트 파일\rhythm_game\songs\Newjeans.mp3"  
+pygame.mixer.music.load(music_path)
 start_font = pygame.font.Font(os.path.join(Fpath,"I AM A PLAYER.ttf"), int(w/23))
 start_text = start_font.render("START", False, (255,255,255))
 
+song_path = [
+    r"C:\Users\clueo\Desktop\이찬우-프로젝트 파일\rhythm_game\songs\Newjeans.mp3",
+    r"C:\Users\clueo\Desktop\이찬우-프로젝트 파일\rhythm_game\songs\ASAP.mp3",
+    r"C:\Users\clueo\Desktop\이찬우-프로젝트 파일\rhythm_game\songs\ETA.mp3"
+]
+
+song_name = [
+    "New Jeans",
+    "ASAP",
+    "ETA"
+]
 main = True
 ingame = True
 
@@ -165,31 +175,14 @@ if not start_screen:
                 rate_data[2] = t3[0][0]
             if len(t4) > 0:
                 rate_data[3] = t4[0][0]
-            
+######################################################################################
             print(Time)
-            # if current_note_idx < len(nl) and Time >= nl[current_note_idx]['timeTick']:
-            #     current_note = nl[current_note_idx]
-            #     sum_note(current_note['pos'])
-            #     current_note_idx += 1
-            #     print("good")
-            
-            # for next_idx in range(current_note_idx, len(nl)):
-            #     next_note = nl[next_idx]
-            #     if Time >= next_note['timeTick']:
-            #         sum_note(next_note['pos'])
-            #         current_note_idx += 1
-            #     else:
-            #         break
-    ####################################################################################################
-            # Time = pygame.time.get_ticks() / 1000
-            
             while current_note_idx < len(nl) and Time >= nl[current_note_idx]['timeTick']:
                 current_note = nl[current_note_idx]
                 sum_note(current_note['pos'])  
                 current_note_idx += 1 
-    #####################################################################################################
             Time = time.time() - gst
-
+######################################################################################
             fps = clock.get_fps()
         
             ingame_font_combo = pygame.font.Font(os.path.join(Fpath, "I AM A PLAYER.ttf"), int((w/38)* combo_effect2))
@@ -350,4 +343,3 @@ if not start_screen:
             screen.blit(miss_text, (w/2 - miss_text.get_width() /2, (h/12)*4 - miss_text.get_height() / 2))
             pygame.display.flip()
             clock.tick(maxframe)
-            a += 1
