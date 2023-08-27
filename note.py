@@ -1,12 +1,11 @@
-noteList = {'ETA' : [
-    {'pos': 2, 'timeTick': 0.4}, 
-    {'pos': 3, 'timeTick': 0.4}, 
-    {'pos': 4, 'timeTick': 0.4},
+noteList = {
+'Newjeans' : [
     {'pos': 1, 'timeTick': 0.4},
 ],
-'Newjeans' : [
+'ETA' : [
     {'pos': 2, 'timeTick': 0.4}, 
+],
+'ASAP' : [
     {'pos': 3, 'timeTick': 0.4}, 
-    {'pos': 4, 'timeTick': 0.4},
-    {'pos': 1, 'timeTick': 0.4},
-]}
+]
+}

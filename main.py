@@ -7,7 +7,7 @@ from pydub import AudioSegment
 from note import noteList as nl
 pygame.init()
 pygame.mixer.init()
-start_screen = True
+start_screen = False
 song_selection = True
 selected_song_index = 0
 
@@ -15,12 +15,17 @@ w =1600
 h= 900
 Cpath = os.path.dirname(__file__)
 Fpath = os.path.join("font")
-vid = Video(r"C:\Users\User\Documents\dev\이찬우\rhythm_game\video\ETA_vid.mp4")
+vid = Video(r"video\ETA_vid.mp4")
 vid.set_volume(0.0)
+
 screen = pygame.display.set_mode((w,h))
 background = pygame.image.load(r"C:\Users\User\Documents\dev\이찬우\rhythm_game\pic\background.jpg")
 bg2 = pygame.image.load(r"C:\Users\User\Documents\dev\이찬우\rhythm_game\pic\bg.png")
 start_bg = pygame.image.load(r"C:\Users\User\Documents\dev\이찬우\rhythm_game\pic\start.jpg")
+newjeanspic = pygame.image.load(r"C:\Users\User\Documents\dev\이찬우\rhythm_game\pic\New Jeans.jpg")
+ETApic = pygame.image.load(r"C:\Users\User\Documents\dev\이찬우\rhythm_game\pic\ETA.jpg")
+ASAPpic = pygame.image.load(r"C:\Users\User\Documents\dev\이찬우\rhythm_game\pic\ASAP.jpg")
+scpic = pygame.image.load(r"C:\Users\User\Documents\dev\이찬우\rhythm_game\pic\ready.jpg")
 clock = pygame.time.Clock()  
 start_font = pygame.font.Font(os.path.join(Fpath,"I AM A PLAYER.ttf"), int(w/23))
 start_text = start_font.render("START", False, (255,255,255))
@@ -58,7 +63,7 @@ while start_screen:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             pygame.quit()
-        if event.type == pygame.MOUSEBUTTONUP:
+        if event.type == pygame.MOUSEBUTTONDOWN:
             mouse_pos = pygame.mouse.get_pos()
             if check_start_button(mouse_pos):
                 start_screen = False
@@ -71,9 +76,9 @@ def draw_song_list(screen, font, song_list, selected_index):
     for index, song in enumerate(song_list):
         song_name = song['name']
         if index == selected_index:
-            color = (255, 255, 255)  
+            color = (239, 97, 255)  
         else:
-            color = (192, 192, 192) 
+            color = (255, 144, 97) 
         text_surface = font.render(song_name, True, color)
         screen.blit(text_surface, (50, 100 + index * 30))
 
@@ -188,11 +193,12 @@ while True:
                 selected_index = (selected_index + 1) % len(song_list)
             elif event.key == pygame.K_RETURN:
                 selected_song = song_list[selected_index]['path']
-                ###final_nl = nl['se']
+                selected_name = song_list[selected_index]['name']
+                final_nl = nl[selected_name]
                 play_game(selected_song)
                 flag = True
                 break
-    screen.fill((0, 0, 0))
+    screen.blit(scpic, (0,0))
     draw_song_list(screen, font, song_list, selected_index)
     pygame.display.flip()
     if flag == True:
@@ -201,6 +207,7 @@ while main:
     Time = pygame.time.get_ticks() / 1000
     Time = Time - Time
     while ingame:
+        #vid.draw(screen,(0,0), force_draw=False)
         if len(t1) > 0:
             rate_data[0] = t1[0][0]
         if len(t2) > 0:
@@ -226,8 +233,8 @@ while main:
 ####################################################################################################
         # Time = pygame.time.get_ticks() / 1000
         
-        while current_note_idx < len(nl) and Time >= nl[current_note_idx]['timeTick']:
-            current_note = nl[current_note_idx]
+        while current_note_idx < len(final_nl) and Time >= final_nl[current_note_idx]['timeTick']:
+            current_note = final_nl[current_note_idx]
             sum_note(current_note['pos'])  
             current_note_idx += 1 
 #####################################################################################################
@@ -273,7 +280,7 @@ while main:
                     keyset[3] = 1
                     if len(t4) > 0:
                         if t4[0][0] > h /3:
-                            rating(4)
+                            rating(4)   
                             del t4[0]
             if event.type == pygame.KEYUP:
                 if event.key == pygame.K_a:
@@ -284,7 +291,12 @@ while main:
                     keyset[2] = 0
                 if event.key == pygame.K_f:
                     keyset[3] = 0
-        screen.blit(background, (0, 0))
+        if selected_name == 'Newjeans':
+            screen.blit(newjeanspic, (0,0))
+        elif selected_name == 'ETA':
+            screen.blit(ETApic, (0,0))
+        elif selected_name == 'ASAP':
+            screen.blit(ASAPpic, (0,0))   
         screen.blit(bg2, (w / 2 - w / 8, -int(w/100), w / 4, h+ int(w /50)))
 
         #######################################################################################################
