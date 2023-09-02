@@ -26,6 +26,7 @@ newjeanspic = pygame.image.load(r"C:\Users\User\Documents\dev\이찬우\rhythm_g
 ETApic = pygame.image.load(r"C:\Users\User\Documents\dev\이찬우\rhythm_game\pic\ETA.jpg")
 ASAPpic = pygame.image.load(r"C:\Users\User\Documents\dev\이찬우\rhythm_game\pic\ASAP.jpg")
 scpic = pygame.image.load(r"C:\Users\User\Documents\dev\이찬우\rhythm_game\pic\ready.jpg")
+bg1 = pygame.image.load(r"C:\Users\User\Documents\dev\이찬우\rhythm_game\pic\BUNNIES.jpg")
 clock = pygame.time.Clock()  
 start_font = pygame.font.Font(os.path.join(Fpath,"I AM A PLAYER.ttf"), int(w/23))
 start_text = start_font.render("START", False, (255,255,255))
@@ -76,9 +77,9 @@ def draw_song_list(screen, font, song_list, selected_index):
     for index, song in enumerate(song_list):
         song_name = song['name']
         if index == selected_index:
-            color = (239, 97, 255)  
+            color = (60, 0, 255) 
         else:
-            color = (255, 144, 97) 
+            color = (0, 0, 0)  
         text_surface = font.render(song_name, True, color)
         screen.blit(text_surface, (50, 100 + index * 30))
 
@@ -206,8 +207,9 @@ while True:
 while main:
     Time = pygame.time.get_ticks() / 1000
     Time = Time - Time
+    gst = time.time()
     while ingame:
-        #vid.draw(screen,(0,0), force_draw=False)
+        print(Time)
         if len(t1) > 0:
             rate_data[0] = t1[0][0]
         if len(t2) > 0:
@@ -216,23 +218,8 @@ while main:
             rate_data[2] = t3[0][0]
         if len(t4) > 0:
             rate_data[3] = t4[0][0]
-        
-        # if current_note_idx < len(nl) and Time >= nl[current_note_idx]['timeTick']:
-        #     current_note = nl[current_note_idx]
-        #     sum_note(current_note['pos'])
-        #     current_note_idx += 1
-        #     print("good")
-        
-        # for next_idx in range(current_note_idx, len(nl)):
-        #     next_note = nl[next_idx]
-        #     if Time >= next_note['timeTick']:
-        #         sum_note(next_note['pos'])
-        #         current_note_idx += 1
-        #     else:
-        #         break
-####################################################################################################
-        # Time = pygame.time.get_ticks() / 1000
-        
+
+###################################################################################################
         while current_note_idx < len(final_nl) and Time >= final_nl[current_note_idx]['timeTick']:
             current_note = final_nl[current_note_idx]
             sum_note(current_note['pos'])  
@@ -296,13 +283,13 @@ while main:
         elif selected_name == 'ETA':
             screen.blit(ETApic, (0,0))
         elif selected_name == 'ASAP':
-            screen.blit(ASAPpic, (0,0))   
+            screen.blit(ASAPpic, (0,0))
         screen.blit(bg2, (w / 2 - w / 8, -int(w/100), w / 4, h+ int(w /50)))
 
         #######################################################################################################
+        keys[0] += (keyset[0]-keys[0])/ (2 * (maxframe / fps))
         keys[1] += (keyset[1]-keys[1])/ (2 * (maxframe / fps))      
         keys[2] += (keyset[2]-keys[2])/ (2 * (maxframe / fps))
-        keys[0] += (keyset[0]-keys[0])/ (2 * (maxframe / fps))
         keys[3] += (keyset[3]-keys[3])/ (2 * (maxframe / fps)) 
         #######################################################################################################
         if Time > combo_time:
@@ -378,8 +365,8 @@ while main:
                 combo_effect2 = 1.3
                 rate = "MISS"
                 t4.remove(tile_data)
-        
-        pygame.draw.rect(screen, (0,0,0), (w/2-w/8, (h/12)*9,w/4,h/2))
+        screen.blit(bg1,(w/2-w/8, (h/12)*9,w/4,h/2))        
+        #pygame.draw.rect(screen, (0,0,0), (w/2-w/8, (h/12)*9,w/4,h/2))
         pygame.draw.rect(screen, (255,255,128), (w/2-w/8, (h/12)*9,w/4,h/2), int(h/100))
         
         pygame.draw.rect(screen, (255 - 100 * keys[0],255 - 100 * keys[0], 255 - 100 * keys[0]), (w / 2 - w / 9, (h / 24) * 19 + (h / 48) * keys[0], w / 27, h / 8), int(h / 150))
